@@ -1,0 +1,31 @@
+reset
+
+#Manipulate the initial conditions for data fitting
+
+set samples 1000
+#Increase the samples size in order to smoothen the graph
+
+A = 1 
+#A is the Maximum Amplitude
+
+b = 4
+#Shift Gaussian from 00 to designated number
+
+sigma = 1
+#Sigma is FWHM (Full Width Half Maximum) between the B range
+
+y(x) = A*exp(-(x-b)**2/sigma**2);
+
+A1 = 2 
+b1 = 10
+sigma1 = 2
+y1(x) = A1*exp(-(x-b1)**2/sigma1**2);
+
+sumy(x) = y(x) + y1(x)
+
+fit sumy(x) 'g2.dat' u 1:4 via A,b,sigma,A1,b1,sigma1
+plot 'g2.dat' u 1:4 w p ps 10 
+replot sumy(x) w l lw 10
+
+
+
